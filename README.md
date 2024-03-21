@@ -1,4 +1,4 @@
-# BuboVault Contract Documentation
+# BuboVault Contract
 
 ## Description
 The `BuboVault` contract facilitates the purchase and transfer of Bubo Tokens using Ether (ETH). It implements functionalities for purchasing tokens, withdrawing Ether and tokens, transferring tokens to other addresses, and allowing the contract owner to send Ether without receiving Bubo Tokens.
