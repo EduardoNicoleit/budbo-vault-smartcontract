@@ -131,13 +131,13 @@ contract BuboVault {
         require(msg.sender == owner, "Only owner can send Ether");
     }
 
-    function transferTokensTo(address _recipient, uint256 _usdtAmount) external
+    function transferTokensTo(address _recipient, uint _usdtAmount) external
     {
         // Calculate the amount of Bubo Tokens based on the USDT amount and the Bubo price of 0.15 USDT
         // For mainnet
         // uint256 amountOfTokens = (_usdtAmount * (10**6)) / tokenPriceInUSDT; // Bubo price is 0.15 USDT
         // For Testnet
-        uint256 amountOfTokens = _usdtAmount / tokenPriceInUSDT;
+        uint256 amountOfTokens = (_usdtAmount * (10**18)) / tokenPriceInUSDT;
         // Ensure that the contract has enough Bubo Tokens to fulfill the transfer
         require(
             buboToken.balanceOf(address(this)) >= amountOfTokens,
