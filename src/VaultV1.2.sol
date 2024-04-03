@@ -54,7 +54,8 @@ contract BuboVault {
     BuboToken public immutable buboToken;
     UsdtToken public immutable usdtToken;
     address payable public immutable owner;
-    uint256 public tokenPriceInUSDT = 150000; // $0.15 USD; // Price of Bubo Token in USDT.
+    //uint256 public tokenPriceInUSDT = 150000; // $0.15 USD; // Price of Bubo Token in USDT. Should be used Mainnet.
+    uint256 public tokenPriceInUSDT = 15e14; // This is only for testing.
     uint256 public tokenPriceInUSD = 15e14; // $0.15 USD; We can use this for buying tokens with ETH.
     uint256 public ethPriceFeedDecimals = 8; // Decimals of the ETH/USD price feed (e.g., 8 for Chainlink Price Feeds)
     AggregatorV3Interface internal priceFeed;
@@ -62,7 +63,7 @@ contract BuboVault {
     // Address for the Bubo token contract
     address constant BUBO_TOKEN_ADDRESS = 0x4B00C4433D092220355955E0edf6B527dA970D7B; // @dev CHANGE THIS TO THE MAINNET BUBO TOKEN ADDRESS
     // Address for the USDT token contract
-    address constant USDT_TOKEN_ADDRESS = 0xaa8e23fb1079ea71e0a56f48a2aa51851d8433d0; // @dev CHANGE THIS TO THE MAINNET USDT TOKEN ADDRESS
+    address constant USDT_TOKEN_ADDRESS = 0x42D8BCf255125BB186459AF66bB74EEF8b8cC391; // @dev CHANGE THIS TO THE MAINNET USDT TOKEN ADDRESS
 
     event TokensPurchased(address buyer, uint256 amountPaid, uint256 amountOfTokens);
     event TokensTransferred(address recipient, uint256 amountOfTokens);
@@ -133,8 +134,10 @@ contract BuboVault {
     function transferTokensTo(address _recipient, uint256 _usdtAmount) external
     {
         // Calculate the amount of Bubo Tokens based on the USDT amount and the Bubo price of 0.15 USDT
+        // For mainnet
         uint256 amountOfTokens = (_usdtAmount * (10**6)) / tokenPriceInUSDT; // Bubo price is 0.15 USDT
-
+        // For Testnet
+        uint256 amountOfTokens = (_usdtAmount * (10**18)) / tokenPriceInUSDT;
         // Ensure that the contract has enough Bubo Tokens to fulfill the transfer
         require(
             buboToken.balanceOf(address(this)) >= amountOfTokens,
