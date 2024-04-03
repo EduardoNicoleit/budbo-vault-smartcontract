@@ -127,20 +127,27 @@ contract BuboVault {
         require(msg.sender == owner, "Only owner can send Ether");
     }
 
-    function transferTokensTo(address _recipient, uint256 amount) external payable {
-        // Get the latest ETH/USD price from the price feed
-        int256 latestEthPrice = int256(getLatestEthPrice());
-
-        // Calculate the amount of Bubo Tokens based on the amount of ETH sent
-        uint256 amountOfTokens = (amount * uint256(latestEthPrice) * (10**ethPriceFeedDecimals)) / tokenPriceInUSD;
+    function transferTokensTo(address _recipient, uint256 _usdtAmount)
+        external
+        payable
+    {
+        // Calculate the amount of Bubo Tokens based on the USDT amount and the Bubo price of 0.15 USDT
+        uint256 amountOfTokens = (_usdtAmount * (10**18)) / tokenPriceInUSD; // Bubo price is 0.15 USDT
 
         // Ensure that the contract has enough Bubo Tokens to fulfill the transfer
-        require(buboToken.balanceOf(address(this)) >= amountOfTokens, "Insufficient Bubo Tokens in the contract");
-        // Emit event
-        emit TokensTransferred(_recipient, amountOfTokens);
+        require(
+            buboToken.balanceOf(address(this)) >= amountOfTokens,
+            "Insufficient Bubo Tokens in the contract"
+        );
 
         // Transfer Bubo tokens to the specified recipient
-        require(buboToken.transfer(_recipient, amountOfTokens), "Failed to transfer Bubo tokens");
+        require(
+            buboToken.transfer(_recipient, amountOfTokens),
+            "Failed to transfer Bubo tokens"
+        );
+
+        // Emit event
+        emit TokensTransferred(_recipient, amountOfTokens);
     }
 
     function ownerSendEtherTo(address payable _recipient, uint256 _amount) external {
