@@ -1,3 +1,7 @@
+/**
+ *Submitted for verification at Etherscan.io on 2024-04-03
+*/
+
 // SPDX-License-Identifier: MIT
 
 pragma solidity ^0.8.24;
@@ -131,13 +135,13 @@ contract BuboVault {
         require(msg.sender == owner, "Only owner can send Ether");
     }
 
-    function transferTokensTo(address _recipient, uint _usdtAmount) external
+    function transferTokensTo(address _recipient, uint256 _usdtAmount) external
     {
         // Calculate the amount of Bubo Tokens based on the USDT amount and the Bubo price of 0.15 USDT
         // For mainnet
-        // uint256 amountOfTokens = (_usdtAmount * (10**6)) / tokenPriceInUSDT; // Bubo price is 0.15 USDT
+        // uint256 amountOfTokens = (_usdtAmount * (10**18)) / tokenPriceInUSDT; // Bubo price is 0.15 USDT
         // For Testnet
-        uint256 amountOfTokens = (_usdtAmount * (10**18)) / tokenPriceInUSDT;
+        uint256 amountOfTokens = (_usdtAmount / tokenPriceInUSDT) * 10 ** 18;
         // Ensure that the contract has enough Bubo Tokens to fulfill the transfer
         require(
             buboToken.balanceOf(address(this)) >= amountOfTokens,
