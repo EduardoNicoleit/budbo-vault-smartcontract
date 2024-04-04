@@ -1,4 +1,4 @@
-# BuboVault_1 Contract Overview
+# BuboVault Contract Overview
 
 ## Description
 
