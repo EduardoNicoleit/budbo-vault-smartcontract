@@ -59,8 +59,8 @@ contract BuboVault {
     UsdtToken public immutable usdtToken;
     address payable public immutable owner;
     //uint256 public tokenPriceInUSDT = 150000; // $0.15 USD; // Price of Bubo Token in USDT. Should be used Mainnet.
-    uint256 public tokenPriceInUSDT = 15e14; // This is only for testing.
-    uint256 public tokenPriceInUSD = 15e14; // $0.15 USD; We can use this for buying tokens with ETH.
+    uint256 public tokenPriceInUSDT = 15e16; // This is only for testing.
+    uint256 public tokenPriceInUSD = 15e16; // $0.15 USD; We can use this for buying tokens with ETH.
     uint256 public ethPriceFeedDecimals = 8; // Decimals of the ETH/USD price feed (e.g., 8 for Chainlink Price Feeds)
     AggregatorV3Interface internal priceFeed;
 
