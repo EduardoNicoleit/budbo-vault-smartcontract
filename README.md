@@ -2,7 +2,7 @@
 
 ## Description
 
-The `BuboVault_1` contract is a smart contract designed to manage the purchase, transfer, and withdrawal of Bubo Tokens and USDT. It includes functionalities for safe ERC20 token transfers, handling addresses, interacting with ERC20 tokens, and obtaining the latest ETH/USD price from the Chainlink Price Feed contract.
+The `BuboVault` contract is a smart contract designed to manage the purchase, transfer, and withdrawal of Bubo Tokens and USDT. It includes functionalities for safe ERC20 token transfers, handling addresses, interacting with ERC20 tokens, and obtaining the latest ETH/USD price from the Chainlink Price Feed contract.
 
 ## Contract Variables
 
