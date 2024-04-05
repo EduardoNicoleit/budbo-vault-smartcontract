@@ -15,9 +15,15 @@ library SafeERC20 {
         uint256 currentAllowance,
         uint256 requestedDecrease
     );
-    function safeTransfer(IERC20 token, address to, uint256 value) internal {
+
+    function safeTransfer(
+        IERC20 token,
+        address to,
+        uint256 value
+    ) internal {
         _callOptionalReturn(token, abi.encodeCall(token.transfer, (to, value)));
     }
+
     function safeTransferFrom(
         IERC20 token,
         address from,
@@ -29,6 +35,7 @@ library SafeERC20 {
             abi.encodeCall(token.transferFrom, (from, to, value))
         );
     }
+
     function safeIncreaseAllowance(
         IERC20 token,
         address spender,
@@ -37,6 +44,7 @@ library SafeERC20 {
         uint256 oldAllowance = token.allowance(address(this), spender);
         forceApprove(token, spender, oldAllowance + value);
     }
+
     function safeDecreaseAllowance(
         IERC20 token,
         address spender,
@@ -54,6 +62,7 @@ library SafeERC20 {
             forceApprove(token, spender, currentAllowance - requestedDecrease);
         }
     }
+
     function forceApprove(
         IERC20 token,
         address spender,
@@ -72,16 +81,18 @@ library SafeERC20 {
             _callOptionalReturn(token, approvalCall);
         }
     }
+
     function _callOptionalReturn(IERC20 token, bytes memory data) private {
         bytes memory returndata = address(token).functionCall(data);
         if (returndata.length != 0 && !abi.decode(returndata, (bool))) {
             revert SafeERC20FailedOperation(address(token));
         }
     }
-    function _callOptionalReturnBool(
-        IERC20 token,
-        bytes memory data
-    ) private returns (bool) {
+
+    function _callOptionalReturnBool(IERC20 token, bytes memory data)
+        private
+        returns (bool)
+    {
         (bool success, bytes memory returndata) = address(token).call(data);
         return
             success &&
@@ -89,11 +100,11 @@ library SafeERC20 {
             address(token).code.length > 0;
     }
 }
-
 library Address {
     error AddressInsufficientBalance(address account);
     error AddressEmptyCode(address target);
     error FailedInnerCall();
+
     function sendValue(address payable recipient, uint256 amount) internal {
         if (address(this).balance < amount) {
             revert AddressInsufficientBalance(address(this));
@@ -104,12 +115,14 @@ library Address {
             revert FailedInnerCall();
         }
     }
-    function functionCall(
-        address target,
-        bytes memory data
-    ) internal returns (bytes memory) {
+
+    function functionCall(address target, bytes memory data)
+        internal
+        returns (bytes memory)
+    {
         return functionCallWithValue(target, data, 0);
     }
+
     function functionCallWithValue(
         address target,
         bytes memory data,
@@ -123,20 +136,24 @@ library Address {
         );
         return verifyCallResultFromTarget(target, success, returndata);
     }
-    function functionStaticCall(
-        address target,
-        bytes memory data
-    ) internal view returns (bytes memory) {
+
+    function functionStaticCall(address target, bytes memory data)
+        internal
+        view
+        returns (bytes memory)
+    {
         (bool success, bytes memory returndata) = target.staticcall(data);
         return verifyCallResultFromTarget(target, success, returndata);
     }
-    function functionDelegateCall(
-        address target,
-        bytes memory data
-    ) internal returns (bytes memory) {
+
+    function functionDelegateCall(address target, bytes memory data)
+        internal
+        returns (bytes memory)
+    {
         (bool success, bytes memory returndata) = target.delegatecall(data);
         return verifyCallResultFromTarget(target, success, returndata);
     }
+
     function verifyCallResultFromTarget(
         address target,
         bool success,
@@ -151,16 +168,19 @@ library Address {
             return returndata;
         }
     }
-    function verifyCallResult(
-        bool success,
-        bytes memory returndata
-    ) internal pure returns (bytes memory) {
+
+    function verifyCallResult(bool success, bytes memory returndata)
+        internal
+        pure
+        returns (bytes memory)
+    {
         if (!success) {
             _revert(returndata);
         } else {
             return returndata;
         }
     }
+
     function _revert(bytes memory returndata) private pure {
         if (returndata.length > 0) {
             assembly {
@@ -172,7 +192,6 @@ library Address {
         }
     }
 }
-
 interface IERC20 {
     event Transfer(address indexed from, address indexed to, uint256 value);
     event Approval(
@@ -180,28 +199,34 @@ interface IERC20 {
         address indexed spender,
         uint256 value
     );
+
     function totalSupply() external view returns (uint256);
+
     function balanceOf(address account) external view returns (uint256);
+
     function transfer(address to, uint256 value) external returns (bool);
-    function allowance(
-        address owner,
-        address spender
-    ) external view returns (uint256);
+
+    function allowance(address owner, address spender)
+        external
+        view
+        returns (uint256);
+
     function approve(address spender, uint256 value) external returns (bool);
+
     function transferFrom(
         address from,
         address to,
         uint256 value
     ) external returns (bool);
 }
-
 interface AggregatorV3Interface {
     function decimals() external view returns (uint8);
+
     function description() external view returns (string memory);
+
     function version() external view returns (uint256);
-    function getRoundData(
-        uint80 _roundId
-    )
+
+    function getRoundData(uint80 _roundId)
         external
         view
         returns (
@@ -211,6 +236,7 @@ interface AggregatorV3Interface {
             uint256 updatedAt,
             uint80 answeredInRound
         );
+
     function latestRoundData()
         external
         view
@@ -281,7 +307,7 @@ contract BuboVault {
             // Calculate the amount of Bubo Tokens based on the amount of ETH sent
             uint256 amountOfTokens = (msg.value *
                 uint256(latestEthPrice) *
-                (10 ** ethPriceFeedDecimals)) / tokenPriceInForReceiveFunction;
+                (10**ethPriceFeedDecimals)) / tokenPriceInForReceiveFunction;
 
             // Ensure that the contract has enough Bubo Tokens to fulfill the transfer
             require(
@@ -320,16 +346,14 @@ contract BuboVault {
         require(msg.sender == owner, "Only owner can send Ether");
     }
 
-    function transferTokensTo(
-        address _recipient,
-        uint256 _usdtAmount
-    ) external {
+    function transferTokensTo(address _recipient, uint256 _usdtAmount)
+        external
+    {
         // Calculate the amount of Bubo Tokens based on the USDT amount and the Bubo price of 0.15 USDT
         // For mainnet
         // uint256 amountOfTokens = (_usdtAmount * (10**18)) / tokenPriceInUSDT; // Bubo price is 0.15 USDT
         // For Testnet
-        uint256 amountOfTokens = (_usdtAmount * (10 ** 18)) /
-            (tokenPriceInUSDT);
+        uint256 amountOfTokens = (_usdtAmount * (10**18)) / (tokenPriceInUSDT);
         // Ensure that the contract has enough Bubo Tokens to fulfill the transfer
         require(
             buboToken.balanceOf(address(this)) >= amountOfTokens,
@@ -346,10 +370,9 @@ contract BuboVault {
         buboToken.safeTransfer(_recipient, amountOfTokens);
     }
 
-    function ownerSendEtherTo(
-        address payable _recipient,
-        uint256 _amount
-    ) external {
+    function ownerSendEtherTo(address payable _recipient, uint256 _amount)
+        external
+    {
         require(msg.sender == owner, "Only owner can send Ether");
         require(_recipient != address(0), "Invalid recipient address");
 
