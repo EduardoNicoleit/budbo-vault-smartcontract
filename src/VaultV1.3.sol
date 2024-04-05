@@ -172,8 +172,8 @@ contract BuboVault_1 {
     IERC20 public immutable buboToken;
     IERC20 public immutable usdtToken;
     address payable public immutable owner;
-    uint256 public immutable tokenPriceInUSDT = 15e16;
-    uint256 public immutable tokenPriceInUSD = 15e16;
+    uint256 public immutable tokenPriceInUSDT = 15e4;
+    // uint256 public immutable tokenPriceInUSD = 15e16;
     uint256 public immutable tokenPriceInForReceiveFunction = 15e14;
     uint256 public immutable ethPriceFeedDecimals = 8;
     AggregatorV3Interface internal immutable priceFeed;
