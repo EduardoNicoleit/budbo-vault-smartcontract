@@ -179,9 +179,9 @@ contract BuboVault_1 {
     AggregatorV3Interface internal immutable priceFeed;
 
     address immutable BUBO_TOKEN_ADDRESS =
-        0x4B00C4433D092220355955E0edf6B527dA970D7B; // @dev CHANGE THIS TO THE MAINNET BUBO TOKEN ADDRESS
+        0x566611224e1BEB2c74ace0426cDBEf0c71917c75; // @dev CHANGE THIS TO THE MAINNET BUBO TOKEN ADDRESS
     address immutable USDT_TOKEN_ADDRESS =
-        0x42D8BCf255125BB186459AF66bB74EEF8b8cC391; // @dev CHANGE THIS TO THE MAINNET USDT TOKEN ADDRESS
+        0xc2132d05d31c914a87c6611c10748aeb04b58e8f; // @dev CHANGE THIS TO THE MAINNET USDT TOKEN ADDRESS
 
     event TokensPurchased(
         address buyer,
@@ -206,7 +206,7 @@ contract BuboVault_1 {
         usdtToken = IERC20(USDT_TOKEN_ADDRESS);
         owner = payable(msg.sender);
         priceFeed = AggregatorV3Interface(
-            0x694AA1769357215DE4FAC081bf1f309aDC325306 // @dev CHANGE THIS TO THE MAINNET PRICE FEED ADDRESS
+            0xAB594600376Ec9fD91F8e885dADF0CE036862dE0 // @dev CHANGE THIS TO THE MAINNET PRICE FEED ADDRESS
         );
     }
 
